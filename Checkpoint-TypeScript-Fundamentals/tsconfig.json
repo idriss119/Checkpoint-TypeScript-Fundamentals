@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* Options de compilation */
+
+    "target": "es6",                                    /* Utilise ES6 comme version cible de JavaScript. */
+    "module": "commonjs",                              /* Utilise CommonJS pour la gestion des modules. */
+    "outDir": "./dist",                               /* Dossier de sortie pour les fichiers JavaScript compilés. */
+    "rootDir": "./src",                               /* Dossier racine pour les fichiers TypeScript source. */
+    "esModuleInterop": true,                           /* Facilite l'importation des modules CommonJS dans des modules ES. */
+    "forceConsistentCasingInFileNames": true,          /* Assure une cohérence dans la casse des noms de fichiers. */
+    "strict": true,                                    /* Active toutes les options de vérification stricte des types. */
+    "skipLibCheck": true,                             /* Ignore la vérification des types dans les fichiers de définition de bibliothèque (.d.ts). */
+    "sourceMap": true,                                /* Crée des fichiers de carte source pour le débogage. */
+    "declaration": true,                              /* Génère des fichiers de déclaration .d.ts. */
+    "noEmitOnError": true                             /* N'émet pas de fichiers si des erreurs de type sont présentes. */
+  },
+  "include": [
+    "src/**/*.ts"                                     /* Inclut tous les fichiers TypeScript dans le dossier 'src'. */
+  ],
+  "exclude": [
+    "node_modules",                                   /* Exclut le dossier 'node_modules' de la compilation. */
+    "dist"                                            /* Exclut le dossier 'dist' pour éviter la recompilation des fichiers générés. */
+  ]
+}

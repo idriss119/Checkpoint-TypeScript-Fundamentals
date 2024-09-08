@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheckPoint TypeScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #1e1e1e;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #container {
+      width: 80%;
+      max-width: 900px;
+      height: 90%;
+      background-color: #333;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #header {
+      background-color: #444;
+      padding: 10px;
+      text-align: center;
+      color: #fff;
+      border-bottom: 1px solid #555;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      background-color: #222;
+      border-top: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .message {
+      margin-bottom: 5px;
+      padding: 10px;
+      border-radius: 4px;
+      background: #444;
+      color: #ddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.5s ease-out;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .line-number {
+      position: absolute;
+      left: 0;
+      width: 30px;
+      background: #333;
+      color: #999;
+      text-align: right;
+      padding-right: 10px;
+      border-right: 1px solid #555;
+      box-sizing: border-box;
+    }
+
+    .message-content {
+      margin-left: 40px;
+    }
+
+    .info {
+      background: #007bff;
+      border-left: 4px solid #0056b3;
+    }
+
+    .error {
+      background: #dc3545;
+      border-left: 4px solid #a71d2a;
+    }
+
+    .source {
+      background: #28a745;
+      border-left: 4px solid #218838;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1>Resultat de Console TypeScript</h1>
+    </div>
+    <div id="messages">
+    </div>
+  </div>
+  <script>
+    const ws = new WebSocket('ws://localhost:3000');
+    const messagesDiv = document.getElementById('messages');
+    let lineNumber = 1;
+
+    ws.onopen = function() {
+      appendMessage('<p class="info">Connexion WebSocket établie.</p>');
+    };
+
+    ws.onmessage = function(event) {
+      if (!event.data.includes('Error loading index.html')) {
+        appendMessage(`<p>${event.data}</p>`);
+      }
+    };
+
+    ws.onclose = function() {
+      appendMessage('<p class="info">Connexion WebSocket fermée.</p>');
+    };
+
+    ws.onerror = function(error) {
+      appendMessage(`<p class="error">Erreur : ${error.message}</p>`);
+    };
+
+    function appendMessage(message) {
+      const p = document.createElement('div');
+      p.classList.add('message');
+      p.innerHTML = `<span class="line-number">${lineNumber++}</span><span class="message-content">${message}</span>`;
+      messagesDiv.appendChild(p);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight; 
+    }
+  </script>
+</body>
+</html>
